@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"../repo"
 	"../versions"
 )
 
@@ -33,4 +34,8 @@ func (a AdaGen) Generate(v versions.Version, filename string) {
 	fmt.Fprintf(specfile, "    SHORT_COMMIT_ID : constant String := \"%s\" ;\n", v.ShortCommitId)
 	fmt.Fprintf(specfile, "    LONG_COMMIT_ID : constant String := \"%s\" ;\n", v.LongCommitId)
 	fmt.Fprintf(specfile, "end %s ;\n", filename)
+}
+
+func (a AdaGen) GenerateFromRepo(m repo.Manifest, v versions.Version, filename string) {
+
 }

@@ -9,6 +9,7 @@ import (
 	"./cgen"
 	"./gogen"
 	"./inigen"
+	"./repo"
 	"./versions"
 	"github.com/akamensky/argparse"
 )
@@ -26,6 +27,7 @@ func ProcessCommandLine() {
 	v := parser.Flag("v", "verbose", &argparse.Options{Help: "Verbose", Default: false})
 	ver := parser.Flag("r", "report-version", &argparse.Options{Help: "report version", Default: false})
 
+	mf := parser.String("f", "manifest", &argparse.Options{Help: "Repo manifest file "})
 	m := parser.Int("m", "major", &argparse.Options{Help: "Major version", Default: 0})
 	minor := parser.Int("n", "minor", &argparse.Options{Help: "Minor version", Default: 0})
 	build := parser.Int("b", "build", &argparse.Options{Help: "Build Number", Default: 999})
@@ -46,6 +48,11 @@ func ProcessCommandLine() {
 	}
 
 	VERBOSE = *v
+
+	if len(*mf) > 0 {
+		log.Printf("Reporting versions for %s\n", *mf)
+		repo.LoadManifest(*mf)
+	}
 	VERSION.Major = *m
 	VERSION.Minor = *minor
 	VERSION.Build = *build

@@ -7,6 +7,8 @@ import (
 	"path"
 	"regexp"
 	"strings"
+
+	"../repo"
 )
 
 type Version struct {
@@ -21,6 +23,7 @@ type Version struct {
 
 type Generator interface {
 	Generate(v Version, filename string)
+	GenerateFromRepo(m repo.Manifest, v Version, filename string)
 }
 
 var verbose = false
