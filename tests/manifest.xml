@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <default sync-j="4" revision="master" upstream="master"/>
+
+  <remote fetch="ssh://git@gitlab.abiomed.com/"  name="abmd"/>
+
+  <project remote="abmd"  name="ic/rlc"    path="rlc"/>
+  <project remote="abmd"  name="ic/fsi"    path="fsi"/>
+  <project remote="abmd"  name="ic/rt"     path="rt"/>
+  <project remote="abmd"  name="ic/sys"    revision="tkt-412-rlfsprotect" path="sys"/>
+  <project remote="abmd"  name="ic/os"     path="os"/>
+  <project remote="abmd"  name="ic/yocto"  path="yocto"/>
+
+  <project remote="abmd" revision="c2b641c8a0c4fd71fcb477d788a740c2c26cddce" upstream="rocko"  name="YOCTO/poky"                    path="os/sources/poky"/>
+  <project remote="abmd" revision="470cd54e44913f81c76538641bbdd80574624677" upstream="rocko"  name="YOCTO/meta-freescale"          path="os/sources/meta-freescale"/>
+  <project remote="abmd" revision="6e3fc5b8d904d06e3aa77e9ec9968ab37a798188" upstream="rocko"  name="YOCTO/meta-openembedded"       path="os/sources/meta-openembedded"/>
+  <project remote="abmd" revision="37c79046d13d10ab16561dddc764c0164ee5deaa" upstream="rocko"  name="YOCTO/meta-freescale-3rdparty" path="os/sources/meta-freescale-3rdparty"/>
+  <project remote="abmd" revision="7250d0d2c3d552dfdb1b7dcc414ee55169bec1c8" upstream="rocko"  name="YOCTO/meta-freescale-distro"   path="os/sources/meta-freescale-distro"/>
+  <project remote="abmd" revision="d87335a50a9dd35d890786edbd79b8953fdaa11a" upstream="rocko"  name="YOCTO/meta-qt5"                path="os/sources/meta-qt5"/>
+  <project remote="abmd" revision="26d50665e2f7223c5f4ad7481a8d2431e7cb55fb" upstream="master" name="YOCTO/meta-browser"            path="os/sources/meta-browser"/>
+  <project remote="abmd" revision="0fb115e97187c069f0da90163f1f374a6b7a4af7" upstream="rocko"  name="YOCTO/meta-swupdate"           path="os/sources/meta-swupdate"/>
+  <project remote="abmd" revision="2886ff9f81ce1d2a22e8dd8a2d30a02d1f023a11" upstream="rocko"  name="YOCTO/meta-variscite-fslc"     path="os/sources/meta-variscite-fslc"/>
+
+  <project remote="abmd" revision="pyro" name="YOCTO/variscite-bsp-base" path="os/sources/base">
+	<copyfile dest="os/setup-environment" src="setup-environment"/>
+  </project>
