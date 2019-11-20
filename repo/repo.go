@@ -27,11 +27,13 @@ type Copyfile struct {
 }
 
 type Project struct {
-	XMLName  xml.Name `xml:"project"`
-	Remote   string   `xml:"remote,attr"`
-	Name     string   `xml:"name,attr"`
-	Revision string   `xml:"revision,attr"`
-	Path     string   `xml:"path,attr"`
+	XMLName       xml.Name `xml:"project"`
+	Remote        string   `xml:"remote,attr"`
+	Name          string   `xml:"name,attr"`
+	Revision      string   `xml:"revision,attr"`
+	Path          string   `xml:"path,attr"`
+	ShortCommitId string
+	LongCommitId  string
 	//Copyfile Copyfile
 }
 
@@ -42,8 +44,6 @@ type Manifest struct {
 	Projects []Project `xml:"project"`
 }
 
-var manifest Manifest
-
 func traceProject(prj Project) {
 	if len(prj.Revision) == 0 {
 		log.Printf("Project %s has no revision spec %s\n", prj.Name, prj.Revision)
@@ -51,7 +51,10 @@ func traceProject(prj Project) {
 	log.Printf("Project %s Path %s Revision %s length %d\n", prj.Name, prj.Path, prj.Revision, len(prj.Revision))
 
 }
-func LoadManifest(mfpath string) error {
+func LoadManifest(mfpath string) (Manifest, error) {
+
+	var manifest Manifest
+
 	mfname := mfpath
 	mf, err := os.Open(mfname)
 	if err != nil {
@@ -70,5 +73,5 @@ func LoadManifest(mfpath string) error {
 		traceProject(prj)
 	}
 
-	return nil
+	return manifest, nil
 }

@@ -114,6 +114,10 @@ func GetRemoteURL(p string) string {
 	return remrepo
 }
 
+func FillGaps(manifest repo.Manifest) {
+
+}
+
 func Report() {
 	fmt.Printf("Version : %d.%d-%d\n", versionMajor, versionMinor, versionBuild)
 	fmt.Printf("Built : %s\n", buildTime)
