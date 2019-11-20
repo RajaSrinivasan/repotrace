@@ -5,6 +5,8 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+
+	"../versions"
 )
 
 type Default struct {
@@ -32,6 +34,8 @@ type Project struct {
 	Name          string   `xml:"name,attr"`
 	Revision      string   `xml:"revision,attr"`
 	Path          string   `xml:"path,attr"`
+	Repo          string
+	Branch        string
 	ShortCommitId string
 	LongCommitId  string
 	//Copyfile Copyfile
@@ -42,6 +46,11 @@ type Manifest struct {
 	Default  Default   `xml:"default"`
 	Remotes  []Remote  `xml:"remote"`
 	Projects []Project `xml:"project"`
+}
+
+type Generator interface {
+	Generate(v versions.Version, filename string)
+	GenerateFromRepo(m Manifest, v versions.Version, filename string)
 }
 
 func traceProject(prj Project) {
@@ -74,4 +83,29 @@ func LoadManifest(mfpath string) (Manifest, error) {
 	}
 
 	return manifest, nil
+}
+
+func fillGapsProject(prj Project) {
+	wd, _ := os.Getwd()
+	defer os.Chdir(wd)
+
+	err := os.Chdir(prj.Path)
+	if err != nil {
+		log.Printf("Error (%s)\n", err)
+		return
+	}
+	log.Printf("Working from %s\n", prj.Path)
+	rem := versions.GetRemoteURL(".")
+	prj.Repo = rem
+	br := versions.GetBranchWithHead(".")
+	prj.Branch = br
+	cid, lcid := versions.GetCommitId(".", "qqq")
+	prj.ShortCommitId = cid
+	prj.LongCommitId = lcid
+}
+
+func FillGaps(manifest Manifest) {
+	for _, prj := range manifest.Projects {
+		fillGapsProject(prj)
+	}
 }

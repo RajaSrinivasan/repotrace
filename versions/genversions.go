@@ -1,11 +1,11 @@
 package versions
 // Go package generator
 // File: versions.h
-const buildTime = "Sat Nov 16 2019 08:18:51"
+const buildTime = "Wed Nov 20 2019 18:46:58"
 const versionMajor = 0
 const versionMinor = 0
 const versionBuild = 999
 const repoURL = "git@gitlab.com:privatetutor/projectlets/go.git"
-const branchName = "master"
-const shortCommitId = "18a0e63"
-const longCommitId = "18a0e63523fdcd6b47d4d654bd8a29108e908c89"
+const branchName = "reposupport"
+const shortCommitId = "971bf5e"
+const longCommitId = "971bf5e417a31e34e22fc16e93efd50dcd2ef9ce"

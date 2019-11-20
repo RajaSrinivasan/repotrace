@@ -18,7 +18,7 @@ var VERBOSE bool
 
 var VERSION versions.Version
 var outputFile string
-var generator versions.Generator
+var generator repo.Generator
 var lang *string
 var mf *string
 var out *string
@@ -97,7 +97,8 @@ func main() {
 			log.Fatal("Unable to load manifest")
 			os.Exit(1)
 		}
-		versions.FillGaps(manifest)
+		repo.FillGaps(manifest)
+		generator.GenerateFromRepo(manifest, VERSION, outputFile)
 	}
 
 }

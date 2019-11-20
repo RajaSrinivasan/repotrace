@@ -7,8 +7,6 @@ import (
 	"path"
 	"regexp"
 	"strings"
-
-	"../repo"
 )
 
 type Version struct {
@@ -21,10 +19,6 @@ type Version struct {
 	LongCommitId  string
 }
 
-type Generator interface {
-	Generate(v Version, filename string)
-	GenerateFromRepo(m repo.Manifest, v Version, filename string)
-}
 
 var verbose = false
 
@@ -112,10 +106,6 @@ func GetRemoteURL(p string) string {
 		remrepo = remfields[4]
 	}
 	return remrepo
-}
-
-func FillGaps(manifest repo.Manifest) {
-
 }
 
 func Report() {
