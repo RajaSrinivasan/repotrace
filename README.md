@@ -1,4 +1,4 @@
-# srctrace - generate source code details for traceability
+# repotrace - generate source code details for traceability
 
 ## Background
 
@@ -8,7 +8,7 @@ This projectlet generates a fragment of source code that can be compiled into th
 
 ## Usage
 
-        usage: srctrace [-h|--help] [-v|--verbose] [-m|--major <integer>] [-n|--minor
+        usage: repotrace [-h|--help] [-v|--verbose] [-m|--major <integer>] [-n|--minor
                         <integer>] [-b|--build <integer>] [-L|--language
                         (C|C++|Ada|python|go)] [-o|--output "<value>"]
 
@@ -29,8 +29,8 @@ This projectlet generates a fragment of source code that can be compiled into th
 
 In the case of go, the output file name is used as the package name. 
 
-        ../../bin/srctrace -L go
-        2019/11/15 11:20:19 srctrace
+        ../../bin/repotrace -L go
+        2019/11/15 11:20:19 repotrace
 
         cat revisions.go
         package revisions
@@ -47,8 +47,8 @@ In the case of go, the output file name is used as the package name.
 
 ### C Application
 
-        ../../bin/srctrace --language C -m 2 -n 3 -b 234
-        2019/11/07 05:46:03 srctrace
+        ../../bin/repotrace --language C -m 2 -n 3 -b 234
+        2019/11/07 05:46:03 repotrace
         $ cat revisions.h
         // C header generator
         // File: revisions.h
@@ -65,8 +65,8 @@ In the case of go, the output file name is used as the package name.
 
 In the case of Ada, the output filename is used to generate an entire package spec.
 
-        ../../bin/srctrace --language Ada -m 2 -n 3 -b 234
-        2019/11/07 05:48:39 srctrace
+        ../../bin/repotrace --language Ada -m 2 -n 3 -b 234
+        2019/11/07 05:48:39 repotrace
         $ cat revisions.ads
         package revisions is
         -- Ada spec generator
@@ -83,8 +83,8 @@ In the case of Ada, the output filename is used to generate an entire package sp
 
 ### Ini Files
 
-        ../bin/srctrace --language ini
-        2019/11/15 21:31:19 srctrace
+        ../bin/repotrace --language ini
+        2019/11/15 21:31:19 repotrace
 
         cat revisions
         [versions]
@@ -99,10 +99,10 @@ In the case of Ada, the output filename is used to generate an entire package sp
 
 ## Installing
 
-        git clone http://github.com/RajaSrinivasan/srctrace.git
-        cd srctrace
+        git clone http://github.com/RajaSrinivasan/repotrace.git
+        cd repotrace
         make dependencies
         make all
-        cp ../bin/srctrace <desired location>
+        cp ../bin/repotrace <desired location>
 
 
