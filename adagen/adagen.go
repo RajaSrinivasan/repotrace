@@ -50,10 +50,10 @@ func (a AdaGen) GenerateFromRepo(m *repo.Manifest, v versions.Version, filename 
 	fmt.Fprintln(outfile, "-- Ada spec generator")
 	fmt.Fprintf(outfile, "-- File: %s.ads\n", filename)
 
-	fmt.Fprintf(specfile, "    BUILD_TIME : constant String := \"%s\" ;\n", time.Now().Format("Mon Jan 2 2006 15:04:05"))
-	fmt.Fprintf(specfile, "    VERSION_MAJOR : constant := %d ;\n", v.Major)
-	fmt.Fprintf(specfile, "    VERSION_MINOR : constant := %d ;\n", v.Minor)
-	fmt.Fprintf(specfile, "    VERSION_BUILD : constant := %d ;\n", v.Build)
+	fmt.Fprintf(outfile, "    BUILD_TIME : constant String := \"%s\" ;\n", time.Now().Format("Mon Jan 2 2006 15:04:05"))
+	fmt.Fprintf(outfile, "    VERSION_MAJOR : constant := %d ;\n", v.Major)
+	fmt.Fprintf(outfile, "    VERSION_MINOR : constant := %d ;\n", v.Minor)
+	fmt.Fprintf(outfile, "    VERSION_BUILD : constant := %d ;\n", v.Build)
 
 	for _, prj := range m.Projects {
 		//repo.Show(prj)
