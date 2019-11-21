@@ -1,5 +1,5 @@
 SOURCES=$(wildcard *.go)
-EXEC=srctrace
+EXEC=repotrace
 BINARIES=../bin
 all: $(EXEC)
 
