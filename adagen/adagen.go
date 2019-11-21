@@ -38,4 +38,40 @@ func (a AdaGen) Generate(v versions.Version, filename string) {
 
 func (a AdaGen) GenerateFromRepo(m *repo.Manifest, v versions.Version, filename string) {
 
+	outfilename := filename + ".ads"
+	outfile, err := os.Create(outfilename)
+	if err != nil {
+		log.Printf("%v creating %s\n", err, outfilename)
+		return
+	}
+	defer outfile.Close()
+
+	fmt.Fprintf(outfile, "package %s is\n", filename)
+	fmt.Fprintln(outfile, "-- Ada spec generator")
+	fmt.Fprintf(outfile, "-- File: %s.ads\n", filename)
+
+	fmt.Fprintf(specfile, "    BUILD_TIME : constant String := \"%s\" ;\n", time.Now().Format("Mon Jan 2 2006 15:04:05"))
+	fmt.Fprintf(specfile, "    VERSION_MAJOR : constant := %d ;\n", v.Major)
+	fmt.Fprintf(specfile, "    VERSION_MINOR : constant := %d ;\n", v.Minor)
+	fmt.Fprintf(specfile, "    VERSION_BUILD : constant := %d ;\n", v.Build)
+
+	for _, prj := range m.Projects {
+		//repo.Show(prj)
+
+		if len(prj.Revision) == 0 {
+			fmt.Fprintf(outfile, "\n-- Project %s\n", prj.Name)
+			if len(prj.Repo) > 0 {
+				prjName := path.Base(prj.Name)
+				fmt.Fprintf(outfile, "    %sRepoURL : constant := \"%s\" ;\n", prjName, prj.Repo)
+				if len(prj.Revision) > 0 {
+		           fmt.Fprintf(outfile, "    %sRevision : constant := \"%s\" ;\n", prjName, prj.Revision)
+				}
+
+				fmt.Fprintf(outfile, "    %sShortCommitId : constant := \"%s\" ;\n", prjName, prj.ShortCommitId)
+				fmt.Fprintf(outfile, "    %sLongCommitId : constant := \"%s\" ;\n", prjName, prj.LongCommitId)
+			}
+		} else {
+			fmt.Fprintf(outfile, "\n-- Project %s Revision %s \n", prj.Name, prj.Revision)
+		}
+	}
 }
