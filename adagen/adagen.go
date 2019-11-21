@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"time"
+	"path"
 
 	"../repo"
 	"../versions"
@@ -74,4 +75,5 @@ func (a AdaGen) GenerateFromRepo(m *repo.Manifest, v versions.Version, filename 
 			fmt.Fprintf(outfile, "\n-- Project %s Revision %s \n", prj.Name, prj.Revision)
 		}
 	}
+	fmt.Fprintf(outfile, "end %s ;\n", filename)	
 }
