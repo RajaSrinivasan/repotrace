@@ -64,7 +64,10 @@ func (gg GoGen) GenerateFromRepo(m *repo.Manifest, v versions.Version, filename 
 			if len(prj.Repo) > 0 {
 				prjName := path.Base(prj.Name)
 				fmt.Fprintf(gofile, "const %sRepoURL = \"%s\"\n", prjName, prj.Repo)
-				fmt.Fprintf(gofile, "const %sBranchName = \"%s\"\n", prjName, prj.Branch)
+				if len(prj.Revision) > 0 {
+		           fmt.Fprintf(gofile, "const %sRevision = \"%s\"\n", prjName, prj.Revision)
+				}
+
 				fmt.Fprintf(gofile, "const %sShortCommitId = \"%s\"\n", prjName, prj.ShortCommitId)
 				fmt.Fprintf(gofile, "const %sLongCommitId = \"%s\"\n", prjName, prj.LongCommitId)
 			}

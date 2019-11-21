@@ -90,8 +90,8 @@ func fillGapsProject(prj *Project) {
 	rem := versions.GetRemoteURL(".")
 	prj.Repo = rem
 
-	br := versions.GetBranchWithHead(".")
-	prj.Branch = br
+	// repo disconnects from branch only commit id's unless originally specified by the manifest
+
 	cid, lcid := versions.GetCommitId(".", "qqq")
 	prj.ShortCommitId = cid
 	prj.LongCommitId = lcid
