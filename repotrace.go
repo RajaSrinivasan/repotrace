@@ -25,7 +25,7 @@ var out *string
 
 func ProcessCommandLine() {
 
-	parser := argparse.NewParser("srctrace", "generate source trace info")
+	parser := argparse.NewParser("repotrace", "generate source trace info")
 
 	v := parser.Flag("v", "verbose", &argparse.Options{Help: "Verbose", Default: false})
 	ver := parser.Flag("r", "report-version", &argparse.Options{Help: "report version", Default: false})
@@ -77,7 +77,7 @@ func generateGenerator() {
 }
 
 func main() {
-	log.Printf("srctrace\n")
+
 	ProcessCommandLine()
 	generateGenerator()
 	if len(*mf) == 0 {
