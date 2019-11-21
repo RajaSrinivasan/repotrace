@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path"
 	"time"
 
 	"../repo"
@@ -50,7 +49,7 @@ func (gg GoGen) GenerateFromRepo(m *repo.Manifest, v versions.Version, filename 
 
 	fmt.Fprintf(gofile, "package %s\n", filename)
 	fmt.Fprintln(gofile, "// Go package generator")
-	fmt.Fprintf(gofile, "// File: %s.h\n", filename)
+	fmt.Fprintf(gofile, "// File: %s\n", gofilename)
 	fmt.Fprintf(gofile, "const buildTime = \"%s\"\n", time.Now().Format("Mon Jan 2 2006 15:04:05"))
 	fmt.Fprintf(gofile, "const versionMajor = %d\n", v.Major)
 	fmt.Fprintf(gofile, "const versionMinor = %d\n", v.Minor)
@@ -62,14 +61,13 @@ func (gg GoGen) GenerateFromRepo(m *repo.Manifest, v versions.Version, filename 
 		if len(prj.Revision) == 0 {
 			fmt.Fprintf(gofile, "\n// Project %s\n", prj.Name)
 			if len(prj.Repo) > 0 {
-				prjName := path.Base(prj.Name)
-				fmt.Fprintf(gofile, "const %sRepoURL = \"%s\"\n", prjName, prj.Repo)
+				fmt.Fprintf(gofile, "const %sRepoURL = \"%s\"\n", prj.Path, prj.Repo)
 				if len(prj.Revision) > 0 {
-		           fmt.Fprintf(gofile, "const %sRevision = \"%s\"\n", prjName, prj.Revision)
+					fmt.Fprintf(gofile, "const %sRevision = \"%s\"\n", prj.Path, prj.Revision)
 				}
 
-				fmt.Fprintf(gofile, "const %sShortCommitId = \"%s\"\n", prjName, prj.ShortCommitId)
-				fmt.Fprintf(gofile, "const %sLongCommitId = \"%s\"\n", prjName, prj.LongCommitId)
+				fmt.Fprintf(gofile, "const %sShortCommitId = \"%s\"\n", prj.Path, prj.ShortCommitId)
+				fmt.Fprintf(gofile, "const %sLongCommitId = \"%s\"\n", prj.Path, prj.LongCommitId)
 			}
 		} else {
 			fmt.Fprintf(gofile, "\n// Project %s Revision %s \n", prj.Name, prj.Revision)

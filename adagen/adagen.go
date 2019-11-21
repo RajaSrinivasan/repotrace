@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 	"time"
-	"path"
 
 	"../repo"
 	"../versions"
@@ -62,18 +61,18 @@ func (a AdaGen) GenerateFromRepo(m *repo.Manifest, v versions.Version, filename 
 		if len(prj.Revision) == 0 {
 			fmt.Fprintf(outfile, "\n-- Project %s\n", prj.Name)
 			if len(prj.Repo) > 0 {
-				prjName := path.Base(prj.Name)
-				fmt.Fprintf(outfile, "    %sRepoURL : constant := \"%s\" ;\n", prjName, prj.Repo)
+				//prjName := path.Base(prj.Name)
+				fmt.Fprintf(outfile, "    %sRepoURL : constant := \"%s\" ;\n", prj.Path, prj.Repo)
 				if len(prj.Revision) > 0 {
-		           fmt.Fprintf(outfile, "    %sRevision : constant := \"%s\" ;\n", prjName, prj.Revision)
+					fmt.Fprintf(outfile, "    %sRevision : constant := \"%s\" ;\n", prj.Path, prj.Revision)
 				}
 
-				fmt.Fprintf(outfile, "    %sShortCommitId : constant := \"%s\" ;\n", prjName, prj.ShortCommitId)
-				fmt.Fprintf(outfile, "    %sLongCommitId : constant := \"%s\" ;\n", prjName, prj.LongCommitId)
+				fmt.Fprintf(outfile, "    %sShortCommitId : constant := \"%s\" ;\n", prj.Path, prj.ShortCommitId)
+				fmt.Fprintf(outfile, "    %sLongCommitId : constant := \"%s\" ;\n", prj.Path, prj.LongCommitId)
 			}
 		} else {
 			fmt.Fprintf(outfile, "\n-- Project %s Revision %s \n", prj.Name, prj.Revision)
 		}
 	}
-	fmt.Fprintf(outfile, "end %s ;\n", filename)	
+	fmt.Fprintf(outfile, "end %s ;\n", filename)
 }
