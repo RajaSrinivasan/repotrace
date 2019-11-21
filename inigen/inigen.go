@@ -34,6 +34,6 @@ func (ig IniGen) Generate(v versions.Version, filename string) {
 	fmt.Fprintf(inifile, "longCommitId = \"%s\"\n", v.LongCommitId)
 }
 
-func (ig IniGen) GenerateFromRepo(m repo.Manifest, v versions.Version, filename string) {
+func (ig IniGen) GenerateFromRepo(m *repo.Manifest, v versions.Version, filename string) {
 
 }

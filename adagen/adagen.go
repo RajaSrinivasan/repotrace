@@ -36,6 +36,6 @@ func (a AdaGen) Generate(v versions.Version, filename string) {
 	fmt.Fprintf(specfile, "end %s ;\n", filename)
 }
 
-func (a AdaGen) GenerateFromRepo(m repo.Manifest, v versions.Version, filename string) {
+func (a AdaGen) GenerateFromRepo(m *repo.Manifest, v versions.Version, filename string) {
 
 }

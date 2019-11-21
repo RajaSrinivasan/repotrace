@@ -97,8 +97,8 @@ func main() {
 			log.Fatal("Unable to load manifest")
 			os.Exit(1)
 		}
-		repo.FillGaps(manifest)
-		generator.GenerateFromRepo(manifest, VERSION, outputFile)
+		repo.FillGaps(&manifest)
+		generator.GenerateFromRepo(&manifest, VERSION, outputFile)
 	}
 
 }

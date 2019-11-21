@@ -50,15 +50,11 @@ type Manifest struct {
 
 type Generator interface {
 	Generate(v versions.Version, filename string)
-	GenerateFromRepo(m Manifest, v versions.Version, filename string)
+	GenerateFromRepo(m *Manifest, v versions.Version, filename string)
 }
 
-func traceProject(prj Project) {
-	if len(prj.Revision) == 0 {
-		log.Printf("Project %s has no revision spec %s\n", prj.Name, prj.Revision)
-	}
-	log.Printf("Project %s Path %s Revision %s length %d\n", prj.Name, prj.Path, prj.Revision, len(prj.Revision))
-
+func Show(prj Project) {
+	log.Printf("Project %s Path %s Revision %s Repo %s\n", prj.Name, prj.Path, prj.Revision, prj.Repo)
 }
 func LoadManifest(mfpath string) (Manifest, error) {
 
@@ -78,14 +74,10 @@ func LoadManifest(mfpath string) (Manifest, error) {
 	xml.Unmarshal(mfdata, &manifest)
 	log.Printf("Default Repository Name %s url %s\n", manifest.Remotes[0].Name, manifest.Remotes[0].Fetch)
 
-	for _, prj := range manifest.Projects {
-		traceProject(prj)
-	}
-
 	return manifest, nil
 }
 
-func fillGapsProject(prj Project) {
+func fillGapsProject(prj *Project) {
 	wd, _ := os.Getwd()
 	defer os.Chdir(wd)
 
@@ -97,15 +89,20 @@ func fillGapsProject(prj Project) {
 	log.Printf("Working from %s\n", prj.Path)
 	rem := versions.GetRemoteURL(".")
 	prj.Repo = rem
+
 	br := versions.GetBranchWithHead(".")
 	prj.Branch = br
 	cid, lcid := versions.GetCommitId(".", "qqq")
 	prj.ShortCommitId = cid
 	prj.LongCommitId = lcid
+	Show(*prj)
+	//log.Printf("Project %s Repo %s Branch %s Commit Id %s Long %s\n", prj.Name, prj.Repo, prj.Branch, prj.ShortCommitId, prj.LongCommitId)
 }
 
-func FillGaps(manifest Manifest) {
-	for _, prj := range manifest.Projects {
-		fillGapsProject(prj)
+func FillGaps(manifest *Manifest) {
+	log.Println("Begin Fillgap")
+	for id, _ := range manifest.Projects {
+		fillGapsProject(&manifest.Projects[id])
 	}
+	log.Println("End Fillgap")
 }

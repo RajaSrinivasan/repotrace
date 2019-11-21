@@ -36,6 +36,6 @@ func (cg CGen) Generate(v versions.Version, filename string) {
 	fmt.Fprintf(hfile, "#define LONG_COMMIT_ID \"%s\"\n", v.LongCommitId)
 }
 
-func (cg CGen) GenerateFromRepo(m repo.Manifest, v versions.Version, filename string) {
+func (cg CGen) GenerateFromRepo(m *repo.Manifest, v versions.Version, filename string) {
 
 }
