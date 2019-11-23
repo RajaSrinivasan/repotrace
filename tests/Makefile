@@ -1,8 +1,9 @@
-all:
-	../../bin/srctrace --language Ada
+testada: 
+	../../bin/repotrace --language Ada
 	gnatmake test
 	./test
-	../../bin/srctrace --language C -m 3 -n 4 -b 292
+testc: 
+	../../bin/repotrace --language C -m 3 -n 4 -b 292
 	gcc ctest.c -o ctest
 	./ctest
 clean:
