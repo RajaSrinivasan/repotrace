@@ -26,7 +26,7 @@ func (gg GoGen) Generate(v versions.Version, filename string) {
 
 	fmt.Fprintf(gofile, "package %s\n", filename)
 	fmt.Fprintln(gofile, "// Go package generator")
-	fmt.Fprintf(gofile, "// File: %s.h\n", filename)
+	fmt.Fprintf(gofile, "// File: %s\n", gofilename)
 	fmt.Fprintf(gofile, "const buildTime = \"%s\"\n", time.Now().Format("Mon Jan 2 2006 15:04:05"))
 	fmt.Fprintf(gofile, "const versionMajor = %d\n", v.Major)
 	fmt.Fprintf(gofile, "const versionMinor = %d\n", v.Minor)
