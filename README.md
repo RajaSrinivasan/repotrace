@@ -102,6 +102,65 @@ In this example 2 different projects are managed one from gitlab.com and another
 
 As can be seen above, for each project, the repository info is gathered and the code fragment is generated.
 
+## C Application
+
+For the same project the following C header file is generated
+
+        cat revisions.h
+        // C header generator
+        // File: revisions.h
+        #define BUILD_TIME "Sat Nov 23 2019 05:59:59"
+        #define VERSION_MAJOR (0)
+        #define VERSION_MINOR (0)
+        #define VERSION_BUILD (999)
+
+        // Project RajaSrinivasan/srctrace.git
+        #define srctraceRepoURL "git://github.com/RajaSrinivasan/srctrace.git" 
+        #define srctraceShortCommitId "5090875" 
+        #define srctraceLongCommitId "5090875cd44ce4be91b042e66a5122c5eec90adb" 
+
+        // Project privatetutor/projectlets/go.git
+        #define goRepoURL "https://gitlab.com/privatetutor/projectlets/go.git" 
+        #define goShortCommitId "1f80b2a" 
+        #define goLongCommitId "1f80b2a0023a6b69d958b7c415472a325b4b0ba8" 
+
+## Ada Application
+
+        cat revisions.ads
+        package revisions is
+        -- Ada spec generator
+        -- File: revisions.ads
+        BUILD_TIME : constant String := "Sat Nov 23 2019 06:01:48" ;
+        VERSION_MAJOR : constant := 0 ;
+        VERSION_MINOR : constant := 0 ;
+        VERSION_BUILD : constant := 999 ;
+
+        -- Project RajaSrinivasan/srctrace.git
+        srctraceRepoURL : constant := "git://github.com/RajaSrinivasan/srctrace.git" ;
+        srctraceShortCommitId : constant := "5090875" ;
+        srctraceLongCommitId : constant := "5090875cd44ce4be91b042e66a5122c5eec90adb" ;
+
+        -- Project privatetutor/projectlets/go.git
+        goRepoURL : constant := "https://gitlab.com/privatetutor/projectlets/go.git" ;
+        goShortCommitId : constant := "1f80b2a" ;
+        goLongCommitId : constant := "1f80b2a0023a6b69d958b7c415472a325b4b0ba8" ;
+        end revisions ;
+
+## Ini Example
+
+        cat revisions.ini
+        [versions]
+        buildTime = "Sat Nov 23 2019 06:02:52"
+        versionMajor = 0
+        versionMinor = 0
+        versionBuild = 999
+        srctraceRepoURL= "git://github.com/RajaSrinivasan/srctrace.git" 
+        srctraceShortCommitId= "5090875" 
+        srctraceLongCommitId= "5090875cd44ce4be91b042e66a5122c5eec90adb" 
+        goRepoURL= "https://gitlab.com/privatetutor/projectlets/go.git" 
+        goShortCommitId= "1f80b2a" 
+        goLongCommitId= "1f80b2a0023a6b69d958b7c415472a325b4b0ba8" 
+
 ## Complex manifests
 
 Typical yocto based manifests tend to be more complex. for example, many projects are included by specifying exact commits. For example:
