@@ -2,7 +2,7 @@
 
 ## Background
 
-Applications distributed in binary form should be traceable back to its source. When using a revision control system like git, this would mean being able to extract the source regardless of how old or home any revisions it has undergone since.
+Applications distributed in binary form should be traceable back to its source. When using a revision control system like git, this would mean being able to extract the source regardless of how old or how many revisions it has undergone since.
 
 It is particularly challenging in the case of large systems where source code from different repositories are combined to produce the full package. Building embedded linux systems with [yocto](https://www.yoctoproject.org) is an example. Typically the [repo](https://gerrit.googlesource.com/git-repo) is used to orchestrate these builds. This tool supports the processing of a repo manifest.xml file to walk through the component directories and gather source code details. The output file will include the details for each component.
 
@@ -10,94 +10,108 @@ This projectlet generates a fragment of source code that can be compiled into th
 
 ## Usage
 
-        usage: repotrace [-h|--help] [-v|--verbose] [-m|--major <integer>] [-n|--minor
+        ../bin/repotrace --help
+        usage: repotrace [-h|--help] [-v|--verbose] [-r|--report-version]
+                        [-f|--manifest "<value>"] [-m|--major <integer>] [-n|--minor
                         <integer>] [-b|--build <integer>] [-L|--language
-                        (C|C++|Ada|python|go)] [-o|--output "<value>"]
+                        (go|C|Ada|ini)] [-o|--output "<value>"]
 
                         generate source trace info
 
         Arguments:
 
-        -h  --help      Print help information
-        -v  --verbose   Verbose. Default: false
-        -m  --major     Major version. Default: 0
-        -n  --minor     Minor version. Default: 0
-        -b  --build     Build Number. Default: 999
-        -L  --language  Language to output
-        -o  --output    Output file base name. Default: revisions
+        -h  --help            Print help information
+        -v  --verbose         Verbose. Default: false
+        -r  --report-version  report version. Default: false
+        -f  --manifest        Repo manifest file 
+        -m  --major           Major version. Default: 0
+        -n  --minor           Minor version. Default: 0
+        -b  --build           Build Number. Default: 999
+        -L  --language        Language to output
+        -o  --output          Output file base name. Default: revisions
 
-## Examples
+## Basic Examples
+
 ### Go Application
 
 In the case of go, the output file name is used as the package name. 
 
         ../../bin/repotrace -L go
-        2019/11/15 11:20:19 repotrace
+
+        cat revisions.go 
+        package revisions
+        // Go package generator
+        // File: revisions.go
+        const buildTime = "Sat Nov 23 2019 05:19:35"
+        const versionMajor = 0
+        const versionMinor = 0
+        const versionBuild = 999
+        const repoURL = "git@github.com:RajaSrinivasan/repotrace.git"
+        const branchName = "master"
+        const shortCommitId = "89f2267"
+        const longCommitId = "89f2267b90c09bab344ddbb3a2c0afcee3785850"
+
+## repo examples
+
+In the following examples, a simple [manifest](https://github.com/RajaSrinivasan/myprojects.git) file is used :
+
+        <?xml version="1.0" encoding="UTF-8"?>
+        <manifest>
+
+        <default sync-j="4" revision="master" upstream="master"/>
+
+        <remote fetch="https://gitlab.com/"  name="gitlab"/>
+        <remote fetch="git://github.com/"  name="github"/>
+
+        <project remote="github"  name="RajaSrinivasan/srctrace.git"        path="srctrace"/>
+        <project remote="gitlab"  name="privatetutor/projectlets/go.git"    path="go"/>
+        </manifest>
+
+In this example 2 different projects are managed one from gitlab.com and another from github.com. repotrace can process this manifest file and gather the revision info for each project.
+
+### Go Application
+
+        ../../../bin/repotrace -f .repo/manifest.xml -L go
+        2019/11/23 05:40:57 Reporting versions for .repo/manifest.xml
+        2019/11/23 05:40:57 Default Repository Name gitlab url https://gitlab.com/
+        2019/11/23 05:40:57 Begin Fillgap
+        2019/11/23 05:40:57 Working from srctrace
+        2019/11/23 05:40:57 Project RajaSrinivasan/srctrace.git Path srctrace Revision  Repo git://github.com/RajaSrinivasan/srctrace.git
+        2019/11/23 05:40:57 Working from go
+        2019/11/23 05:40:57 Project privatetutor/projectlets/go.git Path go Revision  Repo https://gitlab.com/privatetutor/projectlets/go.git
+        2019/11/23 05:40:57 End Fillgap
 
         cat revisions.go
         package revisions
         // Go package generator
-        // File: revisions.h
-        const buildTime = "Fri Nov 15 2019 11:20:19"
+        // File: revisions.go
+        const buildTime = "Sat Nov 23 2019 05:40:57"
         const versionMajor = 0
         const versionMinor = 0
         const versionBuild = 999
-        const repoURL = "git@gitlab.com:privatetutor/projectlets/go.git"
-        const branchName = "master"
-        const shortCommitId = "3e5cabc"
-        const longCommitId = "3e5cabcc45a90d03202a04251713d573fbf6a807"
 
-### C Application
+        // Project RajaSrinivasan/srctrace.git
+        const srctraceRepoURL = "git://github.com/RajaSrinivasan/srctrace.git"
+        const srctraceShortCommitId = "5090875"
+        const srctraceLongCommitId = "5090875cd44ce4be91b042e66a5122c5eec90adb"
 
-        ../../bin/repotrace --language C -m 2 -n 3 -b 234
-        2019/11/07 05:46:03 repotrace
-        $ cat revisions.h
-        // C header generator
-        // File: revisions.h
-        #define BUILD_TIME "Thu Nov 7 2019 05:46:03"
-        #define VERSION_MAJOR (2)
-        #define VERSION_MINOR (3)
-        #define VERSION_BUILD (234)
-        #define REPO_URL "git@gitlab.com:privatetutor/projectlets/go.git"
-        #define BRANCH_NAME "master"
-        #define SHORT_COMMIT_ID "cefa722"
-        #define LONG_COMMIT_ID “cefa72267cc4d3a07fbf5e672b0053116d582aa7”
+        // Project privatetutor/projectlets/go.git
+        const goRepoURL = "https://gitlab.com/privatetutor/projectlets/go.git"
+        const goShortCommitId = "1f80b2a"
+        const goLongCommitId = "1f80b2a0023a6b69d958b7c415472a325b4b0ba8"
 
-### Ada Application
+As can be seen above, for each project, the repository info is gathered and the code fragment is generated.
 
-In the case of Ada, the output filename is used to generate an entire package spec.
+## Complex manifests
 
-        ../../bin/repotrace --language Ada -m 2 -n 3 -b 234
-        2019/11/07 05:48:39 repotrace
-        $ cat revisions.ads
-        package revisions is
-        -- Ada spec generator
-        -- File: revisions.ads
-            BUILD_TIME : constant String := "Thu Nov 7 2019 05:48:39" ;
-            VERSION_MAJOR : constant := 2 ;
-            VERSION_MINOR : constant := 3 ;
-            VERSION_BUILD : constant := 234 ;
-            REPO_URL : constant String := "git@gitlab.com:privatetutor/projectlets/go.git" ;
-            BRANCH_NAME : constant String := "master" ;
-            SHORT_COMMIT_ID : constant String := "cefa722" ;
-            LONG_COMMIT_ID : constant String := "cefa72267cc4d3a07fbf5e672b0053116d582aa7" ;
-        end revisions ;
+Typical yocto based manifests tend to be more complex. for example, many projects are included by specifying exact commits. For example:
 
-### Ini Files
 
-        ../bin/repotrace --language ini
-        2019/11/15 21:31:19 repotrace
+        <project remote="github" revision="c2b641c8a0c4fd71fcb477d788a740c2c26cddce" upstream="rocko"  name="YOCTO/poky"                    path="os/sources/poky"/>
+        <project remote="github" revision="470cd54e44913f81c76538641bbdd80574624677" upstream="rocko"  name="YOCTO/meta-freescale"          path="os/sources/meta-freescale"/>
+  
 
-        cat revisions
-        [versions]
-        buildTime = "Fri Nov 15 2019 21:31:20"
-        versionMajor = 0
-        versionMinor = 0
-        versionBuild = 999
-        repoURL = "git@gitlab.com:privatetutor/projectlets/go.git"
-        branchName = "master"
-        shortCommitId = "ec60c09"
-        longCommitId = "ec60c0924b215757ed2ba1edb2ff3cdd0aac84d3"
+In such cases, since the revision is explicitly specified, the information is not generated in the output.
 
 ## Installing
 
