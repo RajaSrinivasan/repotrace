@@ -4,7 +4,7 @@
 
 Applications distributed in binary form should be traceable back to its source. When using a revision control system like git, this would mean being able to extract the source regardless of how old or home any revisions it has undergone since.
 
-It is particularly challenging in the case of large systems where source code from different repositories are combined to produce the full package. Building embedded linux systems with [yocto](yoctoproject.org) is an example. Typically the [repo](https://gerrit.googlesource.com/git-repo) is used to orchestrate these builds. This tool supports the processing of a repo manifest.xml file to walk through the component directories and gather source code details. The output file will include the details for each component.
+It is particularly challenging in the case of large systems where source code from different repositories are combined to produce the full package. Building embedded linux systems with [yocto](https://www.yoctoproject.org) is an example. Typically the [repo](https://gerrit.googlesource.com/git-repo) is used to orchestrate these builds. This tool supports the processing of a repo manifest.xml file to walk through the component directories and gather source code details. The output file will include the details for each component.
 
 This projectlet generates a fragment of source code that can be compiled into the application and retrieved at runtime to report the details as necessary.
 
