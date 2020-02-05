@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	"../repo"
-	"../versions"
+	"github.com/RajaSrinivasan/repotrace/repo"
+	"github.com/RajaSrinivasan/repotrace/versions"
 )
 
 type CGen int

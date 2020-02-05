@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"../versions"
+	"github.com/RajaSrinivasan/repotrace/versions"
 )
 
 type Default struct {
